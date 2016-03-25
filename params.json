@@ -1,0 +1,6 @@
+{
+  "name": "Simple Rest Client",
+  "tagline": "Um framework para construção de aplicações clientes de RESTful Web Services.",
+  "body": "### Bem vindo. Esta é a página de informações sobre Simple Rest Client framework.\r\nSimple Rest Client é um projeto de código aberto que visa a elaboração de um framework para auxílio a desenvolvedores na construção de aplicações cliente de Web Services. O framework fornece interfaces e classes que buscam simplificar o envio de requisições HTTP à serviços disponibilizados por servidores de Web Services.\r\n\r\n\r\n### Suporte ou Contato\r\nPara dúvidas a respeito da utilização do framework utilize o [guia de introdução](https://github.com).\r\n",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}

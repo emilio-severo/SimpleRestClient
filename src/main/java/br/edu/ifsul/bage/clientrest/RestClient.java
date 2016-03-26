@@ -29,7 +29,6 @@ public class RestClient<T> implements RestClientInterface<T> {
     private URL url;
     private HttpURLConnection con;
     private String contentType;
-    private T object;
     private List<T> objects;
     private BufferedReader request;
     private StringBuilder data;
@@ -114,10 +113,10 @@ public class RestClient<T> implements RestClientInterface<T> {
             con.setRequestProperty("Content-Type", contentType);
             con.setRequestMethod("POST");
             sendRequest(object);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(RestClient.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(RestClient.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             close();
         }
@@ -137,10 +136,10 @@ public class RestClient<T> implements RestClientInterface<T> {
             con.setRequestProperty("Content-Type", contentType);
             con.setRequestMethod("PUT");
             sendRequest(object);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(RestClient.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(RestClient.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             close();
         }
@@ -159,18 +158,19 @@ public class RestClient<T> implements RestClientInterface<T> {
             //con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             con.setRequestMethod("DELETE");
             con.setDoOutput(true);            
+            con.setConnectTimeout(60000);
             con.connect();
-            con.getResponseMessage();
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            Logger.getLogger(RestClient.class.getName()).log(Level.INFO, "\nResponse HTTP code: {0}", String.valueOf(con.getResponseCode()));
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(RestClient.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(RestClient.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             close();
         }
     }
         
-    private void sendRequest(T object) throws IOException {
+    private void sendRequest(T object) throws IOException {        
         con.setDoInput(true);
         con.setDoOutput(true);
         con.setConnectTimeout(60000);
@@ -182,6 +182,7 @@ public class RestClient<T> implements RestClientInterface<T> {
         while ((line = request.readLine()) != null) {
             System.out.println(output);
         }
+        Logger.getLogger(RestClient.class.getName()).log(Level.INFO, "\nResponse HTTP code: {0}", String.valueOf(con.getResponseCode()));
         request.close();
         output.close();
     }
@@ -206,16 +207,15 @@ public class RestClient<T> implements RestClientInterface<T> {
                 data.append(line);
             }
             
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(RestClient.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(RestClient.class.getName()).log(Level.SEVERE, null, ex);
         }   
         
         objects = getList(tipo, data.toString());                
         return objects;
-    }
-    
+    }    
     
     /**
      * O método close() é utilizado para fechar o cliente de Webservice.

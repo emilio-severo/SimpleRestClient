@@ -28,7 +28,7 @@ public class RestClient<T> implements RestClientInterface<T> {
 
     private URL url;
     private HttpURLConnection con;
-    private String contentType;
+    private RequestContentType contentType;
     private List<T> objects;
     private BufferedReader request;
     private StringBuilder data;
@@ -45,7 +45,7 @@ public class RestClient<T> implements RestClientInterface<T> {
      * @param address       String que define a URL do recurso.
      * @param contentType   String que define o tipo do recurso.
      */    
-    public RestClient(String address, String contentType) {
+    public RestClient(String address, RequestContentType contentType) {
         gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
         try {
             this.url = new URL(address);
@@ -53,8 +53,7 @@ public class RestClient<T> implements RestClientInterface<T> {
         } catch (MalformedURLException ex) {
             Logger.getLogger(RestClient.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    
+    }    
     
     /**
      * O construtor da classe recebe como parâmetro uma string que define a URL
@@ -66,7 +65,7 @@ public class RestClient<T> implements RestClientInterface<T> {
      * @param contentType   String que define o tipo do recurso.
      * @param tipo          Classe dos objetos manipulados pelo cliente de Webservice.
      */
-    public RestClient(String address, String contentType, Class<T[]> tipo) {
+    public RestClient(String address, RequestContentType contentType, Class<T[]> tipo) {
         this(address, contentType);
         this.tipo =  tipo;
     }
@@ -96,8 +95,8 @@ public class RestClient<T> implements RestClientInterface<T> {
      * @param contentType String informando o tipo de conteúdo.
      */
     @Override
-    public void setRequestContentType(String contentType) {
-        con.setRequestProperty("Content-Type", contentType);
+    public void setRequestContentType(RequestContentType contentType) {
+        con.setRequestProperty("Content-Type", contentType.getType());
     }
 
     /**
@@ -110,8 +109,8 @@ public class RestClient<T> implements RestClientInterface<T> {
     public void post(T object) {
         try {
             con = (HttpURLConnection) url.openConnection();
-            con.setRequestProperty("Content-Type", contentType);
-            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", contentType.getType());
+            con.setRequestMethod(HttpMethod.POST.name());
             sendRequest(object);
         } catch (MalformedURLException ex) {
             Logger.getLogger(RestClient.class.getName()).log(Level.SEVERE, null, ex);
@@ -133,8 +132,8 @@ public class RestClient<T> implements RestClientInterface<T> {
     public void put(T object) {
         try {
             con = (HttpURLConnection) url.openConnection();
-            con.setRequestProperty("Content-Type", contentType);
-            con.setRequestMethod("PUT");
+            con.setRequestProperty("Content-Type", contentType.getType());
+            con.setRequestMethod(HttpMethod.PUT.name());
             sendRequest(object);
         } catch (MalformedURLException ex) {
             Logger.getLogger(RestClient.class.getName()).log(Level.SEVERE, null, ex);
@@ -156,7 +155,7 @@ public class RestClient<T> implements RestClientInterface<T> {
         try {
             con = (HttpURLConnection) url.openConnection();
             //con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            con.setRequestMethod("DELETE");
+            con.setRequestMethod(HttpMethod.DELETE.name());
             con.setDoOutput(true);            
             con.setConnectTimeout(60000);
             con.connect();
@@ -196,8 +195,8 @@ public class RestClient<T> implements RestClientInterface<T> {
     public List<T> get() {
         try {
             con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            con.setRequestProperty("Content-Type", contentType);
+            con.setRequestProperty("Content-Type", contentType.getType());
+            con.setRequestMethod(HttpMethod.GET.name());            
 
             //Define o método de uma requisição HTTP. Neste caso, o método será um GET.
             request = new BufferedReader(new InputStreamReader(con.getInputStream(), "UTF-8"));

@@ -38,6 +38,12 @@ public interface RestClientInterface<T> {
     void delete();
     
     /**
+     * Método abstrato que define o tipo da classe dos objetos manipulados pelo Web Service.
+     * @param type  Array que representa a classe dos objetos manipulados. 
+     */
+    void setType(Class<T[]> type);
+    
+    /**
      * Método abstrato que define o parâmetro passado para setUrl().
      * @param url   Uma string que define a URL de um determinado recurso.
      */

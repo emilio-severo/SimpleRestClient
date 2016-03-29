@@ -35,8 +35,8 @@ public class RestClient<T> implements RestClientInterface<T> {
     private OutputStream output;
     private String line;
     private Gson gson;
-    private Class<T[]> tipo;
-
+    private Class<T[]> type;
+   
     /**
      * O construtor da classe recebe como parâmetro uma string que define a URL
      * do recurso acessado e outra string que identifica o tipo de conteúdo
@@ -45,7 +45,7 @@ public class RestClient<T> implements RestClientInterface<T> {
      * @param address       String que define a URL do recurso.
      * @param contentType   String que define o tipo do recurso.
      */    
-    public RestClient(String address, RequestContentType contentType) {
+    private RestClient(String address, RequestContentType contentType) {
         gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
         try {
             this.url = new URL(address);
@@ -65,10 +65,23 @@ public class RestClient<T> implements RestClientInterface<T> {
      * @param contentType   String que define o tipo do recurso.
      * @param tipo          Classe dos objetos manipulados pelo cliente de Webservice.
      */
-    public RestClient(String address, RequestContentType contentType, Class<T[]> tipo) {
+    private RestClient(String address, RequestContentType contentType, Class<T[]> type) {
         this(address, contentType);
-        this.tipo =  tipo;
+        this.type =  type;
     }
+    
+    public static RestClient open(String address, RequestContentType contentType){
+        return new RestClient(address, contentType);
+    }
+    
+    /**
+     * 
+     * @param type 
+     */
+    @Override
+    public void setType(Class<T[]> type) {
+        this.type = type;
+    }      
     
     /**
      * O método setUrl(String url) é utilizado para alteração da URL de um
@@ -117,7 +130,7 @@ public class RestClient<T> implements RestClientInterface<T> {
         } catch (IOException ex) {
             Logger.getLogger(RestClient.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            close();
+            //close();
         }
     }
 
@@ -140,7 +153,7 @@ public class RestClient<T> implements RestClientInterface<T> {
         } catch (IOException ex) {
             Logger.getLogger(RestClient.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            close();
+            //close();
         }
     }
 
@@ -165,7 +178,7 @@ public class RestClient<T> implements RestClientInterface<T> {
         } catch (IOException ex) {
             Logger.getLogger(RestClient.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-            close();
+            //close();
         }
     }
         
@@ -212,7 +225,7 @@ public class RestClient<T> implements RestClientInterface<T> {
             Logger.getLogger(RestClient.class.getName()).log(Level.SEVERE, null, ex);
         }   
         
-        objects = getList(tipo, data.toString());                
+        objects = getList(type, data.toString());                
         return objects;
     }    
     
@@ -222,7 +235,7 @@ public class RestClient<T> implements RestClientInterface<T> {
     @Override
     public void close() {
         url = null;
-        //gson = null;
+        gson = null;
         try {
             con.disconnect();
         } catch (Throwable ex) {

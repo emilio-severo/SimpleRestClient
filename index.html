@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Simple Rest Client - Guia de Referência : Uma biblioteca para construção de aplicações clientes de RESTful Web Services.">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Simple Rest Client - Guia de Referência</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/emilio-severo/SimpleRestClient">View on GitHub</a>
+
+          <h1 id="project_title">Simple Rest Client - Guia de Referência</h1>
+          <h2 id="project_tagline">Uma biblioteca para construção de aplicações clientes de RESTful Web Services.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/emilio-severo/SimpleRestClient/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/emilio-severo/SimpleRestClient/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2>
+<a id="introdução" class="anchor" href="#introdu%C3%A7%C3%A3o" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introdução</h2>
+
+<p>Simple Rest Client é um projeto de código aberto que visa a elaboração de uma biblioteca para auxílio a desenvolvedores na construção de aplicações cliente de Web Services. A biblioteca fornece interfaces e classes que buscam simplificar o envio de requisições HTTP à serviços disponibilizados por servidores de Web Services.</p>
+
+<h2>
+<a id="a-interface-restclientinterface" class="anchor" href="#a-interface-restclientinterface" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>A interface RestClientInterface</h2>
+
+<p>A interface genérica RestClientInterface é utilizada para declaração de um objeto de conexão com o Web Services. Vejamos como declarar a variável que servirá de cliente para o envio de métodos de requisição HTTP.</p>
+
+<p><strong>Exemplo:</strong></p>
+
+<p>Para exemplificar, criaremos uma referência a uma conexão com um Web Services de notícias acadêmicas. A classe dos objetos correspondentes às notícias acadêmicas é denominada Noticia.</p>
+
+<p><code>RestClientInterface&lt;Noticia&gt; cliente;</code></p>
+
+<h2>
+<a id="a-classe-restclient" class="anchor" href="#a-classe-restclient" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>A classe RestClient</h2>
+
+<p>A classe genérica RestClient irá implementar os comportamentos definidos na interface genérica RestClientInterface. Inicialmente, invocaremos o método de classe denominado open() para obtenção de uma instância de RestClient, a qual permitirá o envio de requisições HTTP à aplicação de Web Services.</p>
+
+<p><strong>Exemplo:</strong></p>
+
+<p><code>String uri = “http://localhost:8080/noticiaApp/servicos/noticias”;</code>
+<code>RequestContentType contentType = RequestContentType.JSON;</code>
+<code>RestClientInterface&lt;Noticia&gt; cliente;</code>
+<code>cliente = RestClient.open(uri, contentType);</code></p>
+
+<p>A uri é um identificador do recurso do servidor de Web Services. A uri é composta de:</p>
+
+<ul>
+<li>endereço do servidor: no exemplo estamos usando localhost para hospedar o servidor de Web Services. Portanto, identificamos o servidor na forma http://localhost:8080/</li>
+<li>nome da aplicação: identifica o nome a aplicação de Web Services. No exemplo, o nome é noticiaApp.</li>
+<li>Classe de configuração: o nome da classe controladora do Web Services. No exemplo, o nome é  servicos.</li>
+<li>Nome da classe de Web Services: classe que implementa os recursos solicitados pelos clientes. No exemplo, o nome da classe é noticias.</li>
+</ul>
+
+<p>Já contentType é uma constante definida em uma enumeração Java, a qual identifica o tipo de conteúdo solicitado por uma requisição. No exemplo, está sendo enviada uma requisição cujo conteúdo gerado será no formato JSON (JavaScript Object Notation). </p>
+
+<p>O método open() é um método de classe (estático) definido na classe RestClient, o qual abrirá uma conexão com o servidor de Web Services. A conexão será retornada para o objeto denominado cliente.</p>
+
+<p>A seguir, veremos como enviar métodos de requisições do tipo POST, PUT, DELETE e GET a um Web Services. Note, que após o envio de um método de requisição, devemos fechar a conexão. Isso é realizado através do método close(), definido na interface da classe RestClient.</p>
+
+<p><strong>Exemplo:</strong></p>
+
+<p><code>String uri = “http://localhost:8080/noticiaApp/servicos/noticias”;</code>
+<code>RequestContentType contentType = RequestContentType.JSON;</code>
+<code>RestClientInterface&lt;Noticia&gt; cliente;</code>
+<code>cliente = RestClient.open(uri, contentType);</code></p>
+
+<p><code>… //Aqui vai algum método de requisição que veremos a seguir.</code></p>
+
+<p><code>cliente.close();</code></p>
+
+<h2>
+<a id="requisições-post" class="anchor" href="#requisi%C3%A7%C3%B5es-post" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Requisições POST</h2>
+
+<p>Para o envio de requisições do tipo POST, devemos utilizar o método específico definido na interface de RestClient. Após, a obtenção de uma conexão com o método open(), utilizamos o método post(Object o) para o envio do objeto que será persistido no banco de dados mantido pelo Web Services. Ou seja, utilizamos POST para requisições do tipo INSERT.</p>
+
+<p><strong>Exemplo:</strong></p>
+
+<p><code>String uri = “http://localhost:8080/noticiaApp/servicos/noticias”;</code>
+<code>RequestContentType contentType = RequestContentType.JSON;</code>
+<code>RestClientInterface&lt;Noticia&gt; cliente;</code>
+<code>Noticia noticia = new Noticia(“Lançamento da versão 1.0”);</code>
+<code>cliente.post(noticia);</code>
+<code>cliente.close();</code></p>
+
+<p>No exemplo anterior, declaramos uma variável do tipo Notícia e instanciamos o objeto, criando uma nova notícia. A notícia será persistida por um serviço disponibilizado no Web Services noticias, o qual é requisitado através do método post(). Após o envio da requisição e seu processamento pelo Web Services, encerramos a comunicação da aplicação cliente com o servidor através do método close().</p>
+
+<h2>
+<a id="requisições-put" class="anchor" href="#requisi%C3%A7%C3%B5es-put" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Requisições PUT</h2>
+
+<p>Um método específico definido na interface da classe RestClient permite o envio de requições do tipo PUT. As requisições PUT são utilizadas para alteração de dados. Ou seja, usaremos requisições do tipo PUT para realizarmos operações UPDATE em tabelas do banco de dados mantido pela aplicação de Web Services.</p>
+
+<p>Vejamos um exemplo de alteração de uma notícia previamente armazenada pelo nosso Web Services de notícias acadêmicas.</p>
+
+<p><strong>Exemplo:</strong></p>
+
+<p><code>String uri = “http://localhost:8080/noticiaApp/servicos/noticias”;</code>
+<code>RequestContentType contentType = RequestContentType.JSON;</code>
+<code>RestClientInterface&lt;Noticia&gt; cliente;</code>
+<code>noticia.setNoticia(“Lançamento da versão 1.0 da biblioteca”);</code>
+<code>cliente.put(noticia);</code>
+<code>cliente.close();</code></p>
+
+<p>Após a alteração da notícia, através do método setNoticia(String noticia). Usamos o método put(Object obj) para o envio da notícia ao Web Services de notícias acadêmicas.</p>
+
+<h2>
+<a id="requisições-delete" class="anchor" href="#requisi%C3%A7%C3%B5es-delete" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Requisições DELETE</h2>
+
+<p>As requisições do tipo DELETE são utilizadas quando desejarmos excluir algum dado. Ou seja, utilizaremos este tipo de requisição quando desejarmos invocar um DELETE em tabelas do banco de dados mantido pelo Web Services.</p>
+
+<p>Vejamos um exemplo de exclusão de uma notícia previamente armazenada pelo nosso Web Services de notícias acadêmicas.</p>
+
+<p><strong>Exemplo:</strong></p>
+
+<p><code>String uri = “http://localhost:8080/noticiaApp/servicos/noticias”;</code>
+<code>RequestContentType contentType = RequestContentType.TEXT;</code>
+<code>RestClientInterface&lt;Noticia&gt; cliente;</code>
+<code>uri += "deleteNoticia/" + noticia.getId();</code>
+<code>cliente = RestClient.open(uri, RequestContentType.JSON);</code>
+<code>cliente.delete();</code>
+<code>cliente.close();</code></p>
+
+<p>Note que as requisições baseadas no método DELETE recebem um argumento na própria url. Neste exemplo, passamos como parâmetro o ID da notícia a ser excluída.</p>
+
+<h2>
+<a id="requisições-get" class="anchor" href="#requisi%C3%A7%C3%B5es-get" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Requisições GET</h2>
+
+<p>O método de requisição GET é utilizado quando desejamos obter uma lista de objetos do Web Services. Note que o GET está relacionado com o comando SELECT, visto que devemos utilizar quando enviamos uma consulta ao banco de dados mantidos pelo Web Services.</p>
+
+<p>Seguindo nosso exemplo, vejamos como carregar as notícias previamente armazenadas no banco de dados mantido pela aplicação no servidor.</p>
+
+<p><strong>Exemplo:</strong></p>
+
+<p><code>String uri = “http://localhost:8080/noticiaApp/servicos/noticias”;</code>
+<code>RequestContentType contentType = RequestContentType.JSON;</code>
+<code>RestClientInterface&lt;Noticia&gt; cliente;</code>
+<code>List&lt;Noticia&gt; noticias;</code>
+<code>cliente = RestClient.open(uri + "todas", RequestContentType.JSON);</code>
+<code>cliente.setType(Noticia[].class);</code>
+<code>noticias = cliente.get();</code>
+<code>cliente.close();</code></p>
+
+<p>Veja que a uri é constituída do caminho onde se encontra o Web Services mais o recurso solicitado pela aplicação cliente. Neste caso, a aplicação cliente enviará uma requisição solicitando “todas” as notícias encontradas no banco de dados do servidor.</p>
+
+<p>O método setType(Class[] class), definido na interface da classe RestClient, deve ser utilizado para definir o tipo de conjunto de objetos retornado em requisições GET. Neste exemplo, será retornado um conjunto de objetos do tipo Noticia.</p>
+
+<p>A lista de notícias retornada na requisição será guardada em noticias, a qual é uma variável do tipo List. Após realizada a requisição, fechamos a transação com o método close().</p>
+
+<p>Também podemos usar o método GET para obter subconjuntos de objetos. Para isso, devemos enviar requisições com parâmetros que identificam valores que devem ser selecionados na cláusula WHERE de consultas SQL. Vejamos um exemplo:</p>
+
+<p><code>String parametro = URLEncoder.encode(“23/03/2016, "UTF-8");</code>
+<code>String recurso = "pordata/" + parametro;</code>
+<code>cliente = RestClient.open(uri + recurso, RequestContentType.JSON);</code>
+<code>cliente.setType(Noticia[].class);</code>
+<code>noticias = cliente.get();</code>
+<code>cliente.close();</code></p>
+
+<p>Neste exemplo, passamos a data codificada como parâmetro para o recurso “pordata/”. Dessa forma, o servidor irá processar a requisição parametrizada e devolver somente as notícias daquele dia.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Simple Rest Client - Guia de Referência maintained by <a href="https://github.com/emilio-severo">emilio-severo</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>

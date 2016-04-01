@@ -31,15 +31,21 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h3>
-<a id="bem-vindo-esta-é-a-página-de-informações-sobre-a-biblioteca-Simple-Rest-Client" class="anchor" href="#bem-vindo-esta-%C3%A9-a-p%C3%A1gina-de-informa%C3%A7%C3%B5es-sobre-a-biblioteca-Simple-Rest-Client" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Bem vindo. Esta é a página de informações sobre a biblioteca Simple Rest Client.</h3>
+        <h2>
+<a id="introdução" class="anchor" href="#introdu%C3%A7%C3%A3o" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Introdução</h2>
 
 <p>Simple Rest Client é um projeto de código aberto que visa a elaboração de uma biblioteca para auxílio a desenvolvedores na construção de aplicações cliente de Web Services. A biblioteca fornece interfaces e classes que buscam simplificar o envio de requisições HTTP à serviços disponibilizados por servidores de Web Services.</p>
 
-<h3>
-<a id="suporte-ou-contato" class="anchor" href="#suporte-ou-contato" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Suporte ou Contato</h3>
+<h2>
+<a id="a-interface-restclientinterface" class="anchor" href="#a-interface-restclientinterface" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>A interface RestClientInterface</h2>
 
-<p>Para dúvidas a respeito da utilização da biblioteca utilize o <a href="https://github.io/emilio-severo/SimpleRestClient/blob/gh-pages/guia.html">guia de introdução</a>.</p>
+<p>A interface genérica RestClientInterface é utilizada para declaração de um objeto de conexão com o Web Services. Vejamos como declarar a variável que servirá de cliente para o envio de métodos de requisição HTTP.</p>
+
+<p><strong>Exemplo:</strong></p>
+
+<p>Para exemplificar, criaremos uma referência a uma conexão com um Web Services de notícias acadêmicas. A classe dos objetos correspondentes às notícias acadêmicas é denominada Noticia.</p>
+
+<p><code>RestClientInterface&lt;Noticia&gt; cliente;</code></p>
       </section>
     </div>
 

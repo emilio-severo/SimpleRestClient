@@ -164,12 +164,12 @@
 
 <p>Também podemos usar o método GET para obter subconjuntos de objetos. Para isso, devemos enviar requisições com parâmetros que identificam valores que devem ser selecionados na cláusula WHERE de consultas SQL. Vejamos um exemplo:</p>
 
-<code>String parametro = URLEncoder.encode(“23/03/2016, "UTF-8");</code><br/>
-<code>String recurso = "pordata/" + parametro;</code><br/>
-<code>cliente = RestClient.open(uri + recurso, RequestContentType.JSON);</code><br/>
-<code>cliente.setType(Noticia[].class);</code><br/>
-<code>noticias = cliente.get();</code><br/>
-<code>cliente.close();</code>
+<h3>String parametro = URLEncoder.encode(“23/03/2016, "UTF-8");</h3>
+<h3>String recurso = "pordata/" + parametro;</h3>
+<h3>cliente = RestClient.open(uri + recurso, RequestContentType.JSON);</h3>
+<h3>cliente.setType(Noticia[].class);</h3>
+<h3>noticias = cliente.get();</h3>
+<h3>cliente.close();</h3>
 
 <p>Neste exemplo, passamos a data codificada como parâmetro para o recurso “pordata/”. Dessa forma, o servidor irá processar a requisição parametrizada e devolver somente as notícias daquele dia.</p>
       </section>
